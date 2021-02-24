@@ -1,7 +1,7 @@
 FROM node
-RUN mkdir /tetris
-WORKDIR /tetris
-COPY . /tetris
+RUN mkdir /lab
+WORKDIR /lab
+COPY . /lab
 
 RUN yarn install
 RUN yarn build
