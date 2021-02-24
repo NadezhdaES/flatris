@@ -37,5 +37,13 @@ pipeline {
                 '''
                 }
            }
+      stage("Run container") {
+            steps {
+                echo " ============== start running =================="
+                sh 'docker run -it -p 3000:3000 nadezhda96/toolbox:latest'
+              
+            }
+        }
+        
        }
 }
