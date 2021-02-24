@@ -37,10 +37,10 @@ pipeline {
                 '''
                 }
            }
-      stage("Run container") {
+      stage("Remove Unused Docker image") {
             steps {
-                echo " ============== start running =================="
-                sh 'docker run -it -p 3000:3000 nadezhda96/toolbox:latest'
+                echo " ============== start removing=================="
+                sh 'docker rmi nadezhda96/toolbox:latest'
               
             }
         }
