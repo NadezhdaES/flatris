@@ -1,0 +1,42 @@
+#!groovy
+// Run docker build
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent { 
+        label 'master'
+        }
+    triggers { pollSCM('* * * * *') }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+    stages {
+        stage("dockerhub login") {
+            steps {
+                echo " ============== dockerhub login =================="
+                withCredentials([usernamePassword(credentialsId: 'nadezhda96_dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh """
+                    docker login -u $USERNAME -p $PASSWORD
+                    """
+                }
+            }
+        }
+        stage("create docker image") {
+            steps {
+                echo " ============== start building image =================="
+                dir ('docker/toolbox') {
+                	sh 'docker build -t nadezhda96/toolbox:latest .'
+                }
+            }
+        }
+      stage("Push") {
+            steps {
+                echo " ============== start pushing =================="
+                sh '''
+                docker push nadezhda96/toolbox:latest
+                '''
+                }
+           }
+       }
+}
