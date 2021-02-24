@@ -1,7 +1,7 @@
 FROM node
 RUN mkdir /lab
 WORKDIR /lab
-COPY . /lab
+COPY .. /lab
 
 RUN yarn install
 RUN yarn build
